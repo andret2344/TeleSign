@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.0 - 2026-10-06
+
 TeleSign is the successor of atsSignTeleport 0.2.1. The changes below are relative to it.
 
 ### Added
