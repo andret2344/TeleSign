@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.1 - 2026-10-06
+
 ### Changed
 
 - Usage statistics are sent to the new [TeleSign page on bStats](https://bstats.org/plugin/bukkit/TeleSign/34536)
