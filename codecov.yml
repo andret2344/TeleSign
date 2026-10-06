@@ -6,6 +6,3 @@ coverage:
     patch:
       default:
         target: 100%
-
-ignore:
-  - "**/SignTeleportPlugin.java"

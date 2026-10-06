@@ -1,7 +1,3 @@
-/*
- * Copyright Andret Tools System (c) 2025. Copying and modifying allowed only keeping git link reference.
- */
-
 pluginManagement {
 	repositories {
 		mavenCentral()
@@ -12,9 +8,8 @@ pluginManagement {
 dependencyResolutionManagement {
 	repositories {
 		mavenCentral()
-		maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
-		maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
+		maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
 	}
 }
 
-rootProject.name = "atsSignTeleport"
+rootProject.name = "TeleSign"

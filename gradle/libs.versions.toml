@@ -1,19 +1,25 @@
 [versions]
-spigot = "26.1-R0.1-SNAPSHOT"
+java = "25"
+paper = "26.2.build.130-stable"
 jetbrains-annotations = "26.1.0"
 bstats = "3.2.1"
-assertj-core = "3.27.7"
-mockito-core = "5.23.0"
-junit = "6.0.3"
-junit-platform = "2.0.3"
+assertj = "3.27.7"
+mockbukkit = "4.116.1"
+junit = "6.1.3"
+jacoco = "0.8.15"
 
 [libraries]
-spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+mockbukkit = { module = "org.mockbukkit.mockbukkit:mockbukkit-v26.2", version.ref = "mockbukkit" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
-assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-core" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+[plugins]
+jacocolog = { id = "org.barfuin.gradle.jacocolog", version = "4.0.2" }
+changelog = { id = "org.jetbrains.changelog", version = "2.5.0" }
+shadow = { id = "com.gradleup.shadow", version = "9.6.1" }
+hangar = { id = "io.papermc.hangar-publish-plugin", version = "0.1.4" }

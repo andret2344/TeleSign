@@ -1,36 +1,35 @@
-name: atsSignTeleport
-main: eu.andret.ats.signteleport.SignTeleportPlugin
-version: 0.2.1
-description: The plugin that allows to create signs that teleport
-api-version: 1.17
-author: Andret2344
-website: https://www.spigotmc.org/resources/ats-andret-tools-system-sign-teleport-place-a-sign-teleporting-clicking-player.104918/
-libraries:
-  - org.jetbrains:annotations:26.1.0
+name: TeleSign
+main: eu.andret.telesign.TeleSignPlugin
+version: ${version}
+author: Andret
+api-version: '26.2'
+description: Signs that teleport the player who clicks them to the coordinates written on them.
+website: https://github.com/andret2344/TeleSign
 
 commands:
-  signteleport:
-    description: SignTeleport commands
-    usage: /signteleport reload
-    permission: ats.signteleport.reload
+  telesign:
+    description: Reloads the TeleSign config.
+    usage: /telesign reload
+    aliases: [ tsigns ]
+    permission: telesign.reload
 
 permissions:
-  ats.signteleport.*:
-    description: Grants all permissions for SignTeleport
+  telesign.*:
+    description: Grants all TeleSign permissions.
     children:
-      ats.signteleport.use: true
-      ats.signteleport.create: true
-      ats.signteleport.break: true
-      ats.signteleport.reload: true
-  ats.signteleport.use:
-    description: Allows using teleport signs
+      telesign.use: true
+      telesign.create: true
+      telesign.break: true
+      telesign.reload: true
+  telesign.use:
+    description: Allows to be teleported by clicking a teleport sign.
     default: true
-  ats.signteleport.create:
-    description: Allows creating teleport signs
+  telesign.create:
+    description: Allows to create teleport signs.
     default: op
-  ats.signteleport.break:
-    description: Allows breaking teleport signs
+  telesign.break:
+    description: Allows to break teleport signs.
     default: op
-  ats.signteleport.reload:
-    description: Allows reloading the SignTeleport configuration
+  telesign.reload:
+    description: Allows to reload the config.
     default: op

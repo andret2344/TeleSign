@@ -1,6 +1,8 @@
-# Available placeholders: %WORLD%, %X%, %Y%, %Z%, %YAW%, %PITCH%
+# How a teleport sign looks once it is created: exactly four lines in the MiniMessage format,
+# see https://docs.papermc.io/adventure/minimessage/format/
+# Placeholders: <world>, <x>, <y>, <z>, <yaw>, <pitch>
 lines:
-  - '&b[TELEPORT]'
+  - '<aqua>[TELESIGN]'
   - ''
-  - '%WORLD%'
-  - '%X%, %Y%, %Z%'
+  - '<world>'
+  - '<x>, <y>, <z>'

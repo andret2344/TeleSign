@@ -1,0 +1,89 @@
+name: Publish
+
+# Runs when a GitHub release is published, usually a draft made by release.yml. Uploads the jar attached to the
+# release to Modrinth and Hangar, with the release's description as the changelog, so edits made to the draft count.
+# A pre-release goes out as a Modrinth beta and on the Hangar "Snapshot" channel, which has to exist in the project.
+#
+# Repository secrets (Settings > Secrets and variables > Actions), each upload is skipped without its secret:
+#   MODRINTH_TOKEN   - a Modrinth personal access token with the "Create versions" scope, uploads to
+#                      https://modrinth.com/plugin/telesign (project ID 7VN6bx7n, set below)
+#   HANGAR_API_TOKEN - a Hangar API key with the "Create version" permission, uploads to
+#                      https://hangar.papermc.io/andret2344/TeleSign (set in build.gradle.kts)
+
+on:
+  release:
+    types: [ published ]
+
+permissions:
+  contents: read
+
+concurrency: publish
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+      PRERELEASE: ${{ github.event.release.prerelease }}
+      # Used in scripts only as "$RELEASE_NOTES", never pasted into them
+      RELEASE_NOTES: ${{ github.event.release.body }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Get the jar and the notes of the release
+        run: |
+          version="${TAG#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::'$TAG' is not a release tag like v1.2.0"
+            exit 1
+          fi
+          mkdir -p build/release
+          gh release download "$TAG" --pattern "TeleSign-$version.jar" --dir build/release
+          # Read by hangarPublish in build.gradle.kts and by mc-publish below
+          printf '%s\n' "$RELEASE_NOTES" > build/release-notes.md
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          {
+            echo "MINECRAFT_VERSIONS<<EOF"
+            grep '^minecraftVersions=' gradle.properties | cut -d= -f2 | tr ',' '\n'
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
+      # Secrets cannot be used in `if`, and putting the tokens into the job's env would show them to every action
+      - name: Check for the tokens
+        id: tokens
+        run: |
+          echo "modrinth=${{ secrets.MODRINTH_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+          echo "hangar=${{ secrets.HANGAR_API_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish on Modrinth
+        if: steps.tokens.outputs.modrinth == 'true'
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: 7VN6bx7n
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          name: TeleSign ${{ env.VERSION }}
+          version: ${{ env.VERSION }}
+          version-type: ${{ env.PRERELEASE == 'true' && 'beta' || 'release' }}
+          changelog-file: build/release-notes.md
+          files: build/release/TeleSign-${{ env.VERSION }}.jar
+          loaders: |
+            paper
+            purpur
+          game-versions: ${{ env.MINECRAFT_VERSIONS }}
+
+      - name: Publish on Hangar
+        if: steps.tokens.outputs.hangar == 'true'
+        env:
+          HANGAR_API_TOKEN: ${{ secrets.HANGAR_API_TOKEN }}
+        run: >
+          ./gradlew publishPluginPublicationToHangar
+          -PhangarJar="build/release/TeleSign-$VERSION.jar"
+          -PhangarChannel="${{ env.PRERELEASE == 'true' && 'Snapshot' || 'Release' }}"

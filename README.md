@@ -1,103 +1,120 @@
-# atsSignTeleport
+<div align="center">
 
-A Spigot plugin that lets players place signs which teleport anyone who right-clicks them to a stored location,
-including yaw and pitch.
+![TeleSign - teleport signs for Paper, no warps, no commands](.github/assets/banner.png)
+
+Write coordinates on a sign, and anyone who clicks it is teleported there. No warps to set up, no commands to learn.
+
+[![Modrinth downloads](https://img.shields.io/modrinth/dt/telesign?logo=modrinth&label=Modrinth)](https://modrinth.com/plugin/telesign)
+[![Hangar downloads](https://img.shields.io/hangar/dt/TeleSign?label=Hangar)](https://hangar.papermc.io/andret2344/TeleSign)
+[![Latest release](https://img.shields.io/github/v/release/andret2344/TeleSign?logo=github)](https://github.com/andret2344/TeleSign/releases/latest)
+
+[![Build](https://img.shields.io/github/actions/workflow/status/andret2344/TeleSign/build.yml?branch=main&logo=githubactions&logoColor=white)](https://github.com/andret2344/TeleSign/actions/workflows/build.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/andret2344/TeleSign?logo=codecov&logoColor=white)](https://codecov.io/gh/andret2344/TeleSign)
+[![Paper](https://img.shields.io/badge/Paper-26.2%2B-blue)](https://papermc.io/software/paper)
+[![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk&logoColor=white)](https://adoptium.net/)
+[![License](https://img.shields.io/github/license/andret2344/TeleSign)](LICENSE)
+
+[Download on Modrinth](https://modrinth.com/plugin/telesign) ·
+[Download on Hangar](https://hangar.papermc.io/andret2344/TeleSign) ·
+[Report a bug](https://github.com/andret2344/TeleSign/issues)
+
+</div>
+
+## Features
+
+- **Just a sign** - the destination is written on the sign itself: a world and coordinates, optionally with the
+  direction to face.
+- **Two ways from one sign** - the front and the back can each lead somewhere else; the side the player faces counts.
+- **Snapshot of a player** - write `@Steve` and the sign leads to where Steve stands right now, rounded to half a block.
+- **Survives restarts** - destinations are stored in the sign's block data, not in a file.
+- **Looks the way you want** - the text of created signs comes from `config.yml` in the
+  [MiniMessage](https://docs.papermc.io/adventure/minimessage/format/) format, refreshed on `/telesign reload`.
+- **Safe** - only operators can create and break teleport signs by default, region protection plugins are respected,
+  and a sign leading to a deleted world says so instead of failing.
+
+## Installation
+
+1. Download the jar from [Modrinth](https://modrinth.com/plugin/telesign),
+   [Hangar](https://hangar.papermc.io/andret2344/TeleSign) or
+   [GitHub](https://github.com/andret2344/TeleSign/releases/latest).
+2. Put it into the `plugins` folder of a Paper (or Purpur) 26.2+ server running Java 25.
+3. Start the server. Optionally edit `plugins/TeleSign/config.yml` and run `/telesign reload`.
 
 ## Creating a teleport sign
 
-Write on the sign while placing it. Line 1 must always be `[TELEPORT]` (case-insensitive).
-There are two ways to specify the destination on line 2:
+Write the lines while placing a sign, on its front, its back or both. The first line is always `[TELESIGN]` (any case).
+Each side gets its own destination, and clicking the sign teleports to the destination of the side the player faces.
 
-### Explicit coordinates
+### Coordinates
 
 ```
-[TELEPORT]
-[worldName]
+[TELESIGN]
+[world]
 [x, y, z]
 [yaw, pitch]
 ```
 
-Yaw and pitch on line 4 are optional — omitting them (or leaving line 4 blank) defaults both to `0`.
-The legacy single-line form is also accepted:
+The yaw and pitch on the last line are optional and default to `0`. They can also be written on the third line,
+`[x, y, z, yaw, pitch]`. All values accept decimals and negative numbers. The world has to exist.
+
+### Where a player stands
 
 ```
-[x, y, z, yaw, pitch]
+[TELESIGN]
+@Steve
 ```
 
-All values accept decimals and negative numbers.
+The player has to be online when the sign is written. The sign keeps the place where they stood then, with x, y and z
+rounded to the nearest `0.5`; it does not follow the player later.
 
-### Player snapshot (`@mention`)
+## Commands and permissions
 
-```
-[TELEPORT]
-@playerName
-         <- lines 3–4 are ignored
-```
+| Command            | Permission        | Description                                                     |
+|--------------------|-------------------|-----------------------------------------------------------------|
+| `/telesign reload` | `telesign.reload` | Loads the config again and refreshes the signs in loaded chunks |
 
-The plugin looks up the named player (must be online at sign-placement time), reads their current location, and uses
-it as the destination. Coordinates (x, y, z) are rounded to the nearest `0.5`. Yaw and pitch are stored as-is.
+`/tsigns` is an alias of `/telesign`.
 
-## Permissions
+| Permission        | Default  | Description                                                        |
+|-------------------|----------|--------------------------------------------------------------------|
+| `telesign.use`    | everyone | Teleports by right-clicking a teleport sign                        |
+| `telesign.create` | operator | Turns a sign into a teleport sign                                  |
+| `telesign.break`  | operator | Breaks a teleport sign; without it breaking one is cancelled       |
+| `telesign.reload` | operator | Runs `/telesign reload`                                            |
+| `telesign.*`      | -        | All of the above                                                   |
 
-| Permission                | Default  | Description                                                |
-|---------------------------|----------|------------------------------------------------------------|
-| `ats.signteleport.use`    | everyone | Right-click a teleport sign to be teleported               |
-| `ats.signteleport.create` | op       | Place a teleport sign                                      |
-| `ats.signteleport.break`  | op       | Break a teleport sign (breaking is cancelled without this) |
-| `ats.signteleport.reload` | op       | Run `/signteleport reload`                                 |
-| `ats.signteleport.*`      | op       | Grants create, break, and reload; use is inherited as true |
+## Configuration
 
-## Commands
-
-| Command                | Permission                | Description                                         |
-|------------------------|---------------------------|-----------------------------------------------------|
-| `/signteleport reload` | `ats.signteleport.reload` | Reloads `config.yml` and refreshes all loaded signs |
-
-## Configuration (`config.yml`)
-
-Controls how the sign looks after successful creation. Requires exactly four lines — fewer silently disables
-sign rendering.
+`config.yml` sets how a sign looks once it becomes a teleport sign:
 
 ```yaml
+# Exactly four lines in the MiniMessage format
+# Placeholders: <world>, <x>, <y>, <z>, <yaw>, <pitch>
 lines:
-  - '&b[TELEPORT]'   # line 1
-  - ''               # line 2
-  - '%WORLD%'        # line 3
-  - '%X%, %Y%, %Z%'  # line 4
+  - '<aqua>[TELESIGN]'
+  - ''
+  - '<world>'
+  - '<x>, <y>, <z>'
 ```
 
-Available placeholders: `%WORLD%`, `%X%`, `%Y%`, `%Z%`, `%YAW%`, `%PITCH%`.
-Color codes (`&a`, `&b`, …) are supported on any line.
+Signs are refreshed with the current lines when the plugin starts, on `/telesign reload` and when their chunk loads.
+`/telesign reload` keeps the current lines when the new config is invalid and says what is wrong with it.
 
-## Data storage
+## Building from source
 
-Destinations are stored using Bukkit's `PersistentDataContainer` on the sign's `BlockState`, keyed under the
-`atssignteleport` namespace:
-
-| Key                     | Type     | Description  |
-|-------------------------|----------|--------------|
-| `atssignteleport:world` | `STRING` | World name   |
-| `atssignteleport:x`     | `DOUBLE` | X coordinate |
-| `atssignteleport:y`     | `DOUBLE` | Y coordinate |
-| `atssignteleport:z`     | `DOUBLE` | Z coordinate |
-| `atssignteleport:yaw`   | `FLOAT`  | Yaw          |
-| `atssignteleport:pitch` | `FLOAT`  | Pitch        |
-
-Data persists across server restarts because it is stored in the world's chunk data, not in plugin memory.
-
-## Building
-
-Requires Java 25 and Gradle. The shadow JAR bundles bStats (relocated to `eu.andret.ats.signteleport.bstats`).
-
-```
+```sh
 ./gradlew build
 ```
 
-Output: `build/libs/atsSignTeleport-<version>.jar`
+The plugin jar is `build/libs/TeleSign-<version>.jar`. The build runs the test suite (JUnit and MockBukkit);
+[Codecov](https://codecov.io/gh/andret2344/TeleSign) requires 100% coverage.
 
-## CI / CD
+## Metrics
 
-| Workflow     | Trigger                     | What it does                                                                                                              |
-|--------------|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| `ci.yml`     | Every push and pull request | Compiles, runs tests, and uploads JaCoCo coverage to [Codecov](https://codecov.com/) (100% instruction coverage required) |
-| `deploy.yml` | Tag `v*` on `main`          | Builds the JAR, creates a GitHub Release with it attached, publishes to GitHub Packages                                   |
+TeleSign sends anonymous usage statistics to [bStats](https://bstats.org/plugin/bukkit/atsSignTeleport/16239). They
+can be turned off for all plugins in `plugins/bStats/config.yml`.
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE). If you redistribute this plugin or anything built from it, you have
+to keep the contents of the [NOTICE](NOTICE) file, which links back to this repository.
