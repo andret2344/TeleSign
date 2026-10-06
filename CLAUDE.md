@@ -83,6 +83,15 @@ leave the other side alone.
   JUnit reports that as **skipped**. The `test` task fails the build when any test is skipped, so a test never passes
   without running.
 
+## Icon and banner
+
+`.github/assets/` holds the icon (`icon.svg`/`.png`, 512x512) and the banner (`banner.svg`/`.png`, 1200x400, shown on
+top of the README), all generated - never edit them by hand. `python .github/assets/generator/generate.py` draws them
+as pure vector SVGs (every texel and font pixel is a shape) from the oak sign and dark oak planks textures and the font
+of the Minecraft 26.2 client jar (`%APPDATA%/.minecraft/versions/26.2/26.2.jar`, or `MINECRAFT_JAR`), renders the PNGs
+with headless Chrome (or `CHROME`) and copies the icon to `.idea/icon.png`. Textures are read from the jar at run time
+on purpose: Mojang's files must not be committed to this Apache 2.0 repository. Python 3 standard library only.
+
 ## Conventions
 
 - Tabs for indentation, LF line endings (`.gitattributes`), always braces, no wildcard imports, no `var`, `final` on
