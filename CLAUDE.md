@@ -68,6 +68,8 @@ leave the other side alone.
 ## Tests
 
 - JUnit 6 + AssertJ + MockBukkit, `// given` / `// when` / `// then` structure. No Mockito.
+- Test classes, their methods and test-only helpers are package-private. `public` stays only where Java needs it: the
+  `helper/PluginTest` base class (extended from other packages) and overridden API methods.
 - Tests extend `helper/PluginTest`, which starts `MockBukkit.mock()`, loads the real plugin with the shipped
   `config.yml` and adds the world `world` before every test. `placeSign` puts a standing sign whose front faces south
   (+z), `placeTeleportSign`/`addDestination` write a destination of a side straight into its PDC, `writeSign` fires a

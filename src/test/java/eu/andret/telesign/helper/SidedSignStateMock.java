@@ -11,8 +11,8 @@ import org.mockbukkit.mockbukkit.block.state.SignStateMock;
  * A MockBukkit standing sign that implements {@link #getInteractableSideFor(double, double)}, which MockBukkit leaves
  * unimplemented: the front is the side the sign is rotated towards, as on the server.
  */
-public class SidedSignStateMock extends SignStateMock {
-	public SidedSignStateMock(@NotNull final Block block) {
+class SidedSignStateMock extends SignStateMock {
+	SidedSignStateMock(@NotNull final Block block) {
 		super(block);
 	}
 

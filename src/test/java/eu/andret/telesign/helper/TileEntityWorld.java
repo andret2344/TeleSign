@@ -15,7 +15,7 @@ import java.util.Arrays;
 /**
  * A MockBukkit world whose chunks implement {@link Chunk#getTileEntities()}, which MockBukkit leaves unimplemented.
  */
-public class TileEntityWorld extends WorldMock {
+class TileEntityWorld extends WorldMock {
 	@NotNull
 	@Override
 	public ChunkMock getChunkAt(@NotNull final ChunkCoordinate coordinate) {

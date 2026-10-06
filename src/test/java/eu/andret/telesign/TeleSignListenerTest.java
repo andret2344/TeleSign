@@ -150,7 +150,7 @@ class TeleSignListenerTest extends PluginTest {
 		final Block block = placeSign(0, 5, 0);
 		server.getPluginManager().registerEvents(new Listener() {
 			@EventHandler
-			public void protect(@NotNull final SignChangeEvent event) {
+			void protect(@NotNull final SignChangeEvent event) {
 				event.setCancelled(true);
 			}
 		}, plugin);
@@ -295,7 +295,7 @@ class TeleSignListenerTest extends PluginTest {
 		final Block block = placeTeleportSign(0, 5, 0, "world", 10.5, 70, -3.5, 90, 45);
 		server.getPluginManager().registerEvents(new Listener() {
 			@EventHandler
-			public void protect(@NotNull final PlayerInteractEvent event) {
+			void protect(@NotNull final PlayerInteractEvent event) {
 				event.setCancelled(true);
 			}
 		}, plugin);
