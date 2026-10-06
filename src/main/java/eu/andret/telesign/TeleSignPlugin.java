@@ -16,6 +16,6 @@ public class TeleSignPlugin extends JavaPlugin {
 		service.updateSigns();
 		final PluginCommand command = Objects.requireNonNull(getCommand("telesign"));
 		command.setExecutor(new TeleSignCommand(service));
-		new Metrics(this, 16239);
+		new Metrics(this, 34536);
 	}
 }

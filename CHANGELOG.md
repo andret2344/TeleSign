@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed
+
+- Usage statistics are sent to the new [TeleSign page on bStats](https://bstats.org/plugin/bukkit/TeleSign/34536)
+  instead of the one of atsSignTeleport.
+
 ## 1.0.0 - 2026-10-06
 
 TeleSign is the successor of atsSignTeleport 0.2.1. The changes below are relative to it.

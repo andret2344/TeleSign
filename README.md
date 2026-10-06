@@ -100,6 +100,11 @@ lines:
 Signs are refreshed with the current lines when the plugin starts, on `/telesign reload` and when their chunk loads.
 `/telesign reload` keeps the current lines when the new config is invalid and says what is wrong with it.
 
+### Things to keep in mind
+
+- The destinations are stored in the data that Paper adds to each sign. Opening the world in singleplayer or on a
+  vanilla server removes that data, and the teleport signs turn into regular signs.
+
 ## Building from source
 
 ```sh
@@ -111,7 +116,7 @@ The plugin jar is `build/libs/TeleSign-<version>.jar`. The build runs the test s
 
 ## Metrics
 
-TeleSign sends anonymous usage statistics to [bStats](https://bstats.org/plugin/bukkit/atsSignTeleport/16239). They
+TeleSign sends anonymous usage statistics to [bStats](https://bstats.org/plugin/bukkit/TeleSign/34536). They
 can be turned off for all plugins in `plugins/bStats/config.yml`.
 
 ## License
