@@ -6,17 +6,17 @@ Write coordinates on a sign, and anyone who clicks it is teleported there. No wa
 
 [![Modrinth downloads](https://img.shields.io/modrinth/dt/telesign?logo=modrinth&label=Modrinth)](https://modrinth.com/plugin/telesign)
 [![Hangar downloads](https://img.shields.io/hangar/dt/TeleSign?label=Hangar)](https://hangar.papermc.io/andret2344/TeleSign)
-[![Latest release](https://img.shields.io/github/v/release/andret2344/TeleSign?logo=github)](https://github.com/andret2344/TeleSign/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/andret2344/tele-sign?logo=github)](https://github.com/andret2344/tele-sign/releases/latest)
 
-[![Build](https://img.shields.io/github/actions/workflow/status/andret2344/TeleSign/build.yml?branch=main&logo=githubactions&logoColor=white)](https://github.com/andret2344/TeleSign/actions/workflows/build.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/andret2344/TeleSign?logo=codecov&logoColor=white)](https://codecov.io/gh/andret2344/TeleSign)
+[![Build](https://img.shields.io/github/actions/workflow/status/andret2344/tele-sign/build.yml?branch=main&logo=githubactions&logoColor=white)](https://github.com/andret2344/tele-sign/actions/workflows/build.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/andret2344/tele-sign?logo=codecov&logoColor=white)](https://codecov.io/gh/andret2344/tele-sign)
 [![Paper](https://img.shields.io/badge/Paper-26.2%2B-blue)](https://papermc.io/software/paper)
 [![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk&logoColor=white)](https://adoptium.net/)
-[![License](https://img.shields.io/github/license/andret2344/TeleSign)](LICENSE)
+[![License](https://img.shields.io/github/license/andret2344/tele-sign)](LICENSE)
 
 [Download on Modrinth](https://modrinth.com/plugin/telesign) ·
 [Download on Hangar](https://hangar.papermc.io/andret2344/TeleSign) ·
-[Report a bug](https://github.com/andret2344/TeleSign/issues)
+[Report a bug](https://github.com/andret2344/tele-sign/issues)
 
 </div>
 
@@ -36,7 +36,7 @@ Write coordinates on a sign, and anyone who clicks it is teleported there. No wa
 
 1. Download the jar from [Modrinth](https://modrinth.com/plugin/telesign),
    [Hangar](https://hangar.papermc.io/andret2344/TeleSign) or
-   [GitHub](https://github.com/andret2344/TeleSign/releases/latest).
+   [GitHub](https://github.com/andret2344/tele-sign/releases/latest).
 2. Put it into the `plugins` folder of a Paper (or Purpur) 26.2+ server running Java 25.
 3. Start the server. Optionally edit `plugins/TeleSign/config.yml` and run `/telesign reload`.
 
@@ -112,7 +112,7 @@ Signs are refreshed with the current lines when the plugin starts, on `/telesign
 ```
 
 The plugin jar is `build/libs/TeleSign-<version>.jar`. The build runs the test suite (JUnit and MockBukkit);
-[Codecov](https://codecov.io/gh/andret2344/TeleSign) requires 100% coverage.
+[Codecov](https://codecov.io/gh/andret2344/tele-sign) requires 100% coverage.
 
 ## Metrics
 

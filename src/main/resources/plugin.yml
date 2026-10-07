@@ -4,7 +4,7 @@ version: ${version}
 author: Andret
 api-version: '26.2'
 description: Signs that teleport the player who clicks them to the coordinates written on them.
-website: https://github.com/andret2344/TeleSign
+website: https://github.com/andret2344/tele-sign
 
 commands:
   telesign:
